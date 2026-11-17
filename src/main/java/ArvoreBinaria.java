@@ -1,10 +1,8 @@
-package org.example;
-
 public class ArvoreBinaria {
 
         private No raiz;
 
-        // Inserir produto
+
         public boolean inserir(Produto produto) {
 
             if (buscar(produto.getCodigo()) != null) {
@@ -31,7 +29,7 @@ public class ArvoreBinaria {
             return atual;
         }
 
-        // Buscar produto pelo código
+
         public No buscar(int codigo) {
 
             No atual = raiz;

@@ -1,5 +1,3 @@
-package org.example;
-
 public class Produto {
 
         private int codigo;
@@ -7,7 +5,7 @@ public class Produto {
         private double preco;
         private int quantidadeEstoque;
 
-        // Construtor
+
         public Produto(int codigo, String nome, double preco, int quantidadeEstoque) {
             this.codigo = codigo;
             this.nome = nome;
@@ -15,7 +13,7 @@ public class Produto {
             this.quantidadeEstoque = quantidadeEstoque;
         }
 
-        // Getters
+
         public int getCodigo() {
             return codigo;
         }
@@ -32,7 +30,6 @@ public class Produto {
             return quantidadeEstoque;
         }
 
-        // Setters
         public void setCodigo(int codigo) {
             this.codigo = codigo;
         }
@@ -49,7 +46,6 @@ public class Produto {
             this.quantidadeEstoque = quantidadeEstoque;
         }
 
-        // Exibição do produto
         @Override
         public String toString() {
             return "Código: " + codigo +
