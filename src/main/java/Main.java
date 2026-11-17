@@ -18,7 +18,7 @@ public class Main {
             System.out.print("Escolha uma opcao: ");
 
             opcao = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); // Limpa o buffer
 
             switch (opcao) {
                 case 1:
@@ -42,45 +42,37 @@ public class Main {
         sc.close();
     }
 
-    private static void menuNavegacao(Scanner scanner, PilhaHistorico historico) {
+    private static void menuNavegacao(Scanner sc, PilhaHistorico historico) {
         int opcao;
         do {
-            System.out.println("\n--- NAVEGACAO DO USUARIO ---");
+            System.out.println("\n--- NAVEGACAO DO USUARIO (PILHA) ---");
             System.out.println("1 - Acessar nova pagina");
             System.out.println("2 - Ver pagina atual");
             System.out.println("3 - Voltar pagina (Pop)");
             System.out.println("4 - Exibir historico completo");
             System.out.println("0 - Voltar ao menu principal");
-            System.out.print("Escolha uma opcao: ");
+            System.out.print("Escolha: ");
 
-            opcao = scanner.nextInt();
-            scanner.nextLine();
+            opcao = sc.nextInt();
+            sc.nextLine();
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite o nome da pagina/produto visitado: ");
-                    String pagina = scanner.nextLine();
+                    System.out.print("Nome da pagina/produto: ");
+                    String pagina = sc.nextLine();
                     historico.push(pagina);
-                    System.out.println("Acessado com sucesso!");
+                    System.out.println("-> Pagina acessada!");
                     break;
                 case 2:
                     String atual = historico.peek();
-                    if (atual != null) {
-                        System.out.println("Pagina atual: " + atual);
-                    } else {
-                        System.out.println("Historico vazio.");
-                    }
+                    System.out.println(atual != null ? "Pagina atual: " + atual : "Historico vazio.");
                     break;
                 case 3:
                     String removida = historico.pop();
-                    if (removida != null) {
-                        System.out.println("Saiu da pagina: " + removida);
-                    } else {
-                        System.out.println("Nenhuma pagina para voltar.");
-                    }
+                    System.out.println(removida != null ? "Voltou da pagina: " + removida : "Nenhuma pagina para voltar.");
                     break;
                 case 4:
-                    System.out.println("\nHistorico de Navegacao (do mais recente para o mais antigo):");
+                    System.out.println("\nHistorico completo:");
                     historico.exibirHistorico();
                     break;
                 case 0:
@@ -91,56 +83,55 @@ public class Main {
         } while (opcao != 0);
     }
 
-    private static void menuCatalogo(Scanner scanner, ArvoreBinaria catalogo) {
+    private static void menuCatalogo(Scanner sc, ArvoreBinaria catalogo) {
         int opcao;
         do {
-            System.out.println("\n--- CATALOGO DE PRODUTOS ---");
+            System.out.println("\n--- CATALOGO DE PRODUTOS (ARVORE) ---");
             System.out.println("1 - Inserir produto");
             System.out.println("2 - Buscar produto por codigo");
             System.out.println("3 - Listar produtos (Em Ordem)");
             System.out.println("4 - Remover produto");
             System.out.println("0 - Voltar ao menu principal");
-            System.out.print("Escolha uma opcao: ");
+            System.out.print("Escolha: ");
 
-            opcao = scanner.nextInt();
-            scanner.nextLine();
+            opcao = sc.nextInt();
+            sc.nextLine();
 
             switch (opcao) {
                 case 1:
                     System.out.print("Codigo do produto: ");
-                    int codigo = scanner.nextInt();
-                    scanner.nextLine();
+                    int codigo = sc.nextInt();
+                    sc.nextLine();
                     System.out.print("Nome do produto: ");
-                    String nome = scanner.nextLine();
+                    String nome = sc.nextLine();
                     System.out.print("Preço: R$ ");
-                    double preco = scanner.nextDouble();
-                    System.out.print("Quantidade em estoque: ");
-                    int estoque = scanner.nextInt();
+                    double preco = sc.nextDouble();
+                    System.out.print("Estoque: ");
+                    int estoque = sc.nextInt();
+                    sc.nextLine(); // Limpeza crucial após nextDouble/nextInt misturados
 
                     catalogo.inserir(new Produto(codigo, nome, preco, estoque));
-                    System.out.println("Produto cadastrado no catalogo!");
+                    System.out.println("-> Produto inserido na Arvore!");
                     break;
                 case 2:
-                    System.out.print("Digite o codigo para buscar: ");
-                    int codBusca = scanner.nextInt();
+                    System.out.print("Codigo para buscar: ");
+                    int codBusca = sc.nextInt();
+                    sc.nextLine();
                     No resultado = catalogo.buscar(codBusca);
-                    if (resultado != null) {
-                        System.out.println("Encontrado: " + resultado.produto);
-                    } else {
-                        System.out.println("Produto nao encontrado!");
-                    }
+                    System.out.println(resultado != null ? "Encontrado: " + resultado.produto : "Nao encontrado!");
                     break;
                 case 3:
-                    System.out.println("\nCatalogo ordenado por codigo:");
+                    System.out.println("\nCatalogo (Em Ordem):");
                     catalogo.emOrdem();
                     break;
                 case 4:
-                    System.out.print("Digite o codigo do produto para remover: ");
-                    int codRemover = scanner.nextInt();
+                    System.out.print("Codigo para remover: ");
+                    int codRemover = sc.nextInt();
+                    sc.nextLine();
                     if (catalogo.remover(codRemover)) {
-                        System.out.println("Produto removido do catalogo!");
+                        System.out.println("-> Produto removido!");
                     } else {
-                        System.out.println("Nao foi possivel remover: produto inexistente.");
+                        System.out.println("-> Produto nao encontrado.");
                     }
                     break;
                 case 0:
@@ -151,37 +142,40 @@ public class Main {
         } while (opcao != 0);
     }
 
-    private static void menuLogistica(Scanner scanner, FilaPedidos fila) {
+    private static void menuLogistica(Scanner sc, FilaPedidos fila) {
         int opcao;
         do {
-            System.out.println("\n--- GESTAO DE PEDIDOS E LOGISTICA ---");
+            System.out.println("\n--- GESTAO DE LOGISTICA (FILA) ---");
             System.out.println("1 - Adicionar novo pedido");
-            System.out.println("2 - Buscar pedido na fila");
-            System.out.println("3 - Despachar/Remover proximo pedido");
-            System.out.println("4 - Listar todos os pedidos na fila");
+            System.out.println("2 - Buscar pedido");
+            System.out.println("3 - Despachar proximo pedido");
+            System.out.println("4 - Listar pedidos na fila");
             System.out.println("0 - Voltar ao menu principal");
-            System.out.print("Escolha uma opcao: ");
+            System.out.print("Escolha: ");
 
-            opcao = scanner.nextInt();
-            scanner.nextLine();
+            opcao = sc.nextInt();
+            sc.nextLine();
 
             switch (opcao) {
                 case 1:
                     System.out.print("Numero do pedido: ");
-                    int num = scanner.nextInt();
-                    scanner.nextLine();
+                    int num = sc.nextInt();
+                    sc.nextLine();
                     System.out.print("Nome do cliente: ");
-                    String cliente = scanner.nextLine();
+                    String cliente = sc.nextLine();
                     System.out.print("Nome do produto: ");
-                    String prod = scanner.nextLine();
-                    System.out.print("Valor do pedido: R$ ");
-                    double val = scanner.nextDouble();
+                    String prod = sc.nextLine();
+                    System.out.print("Valor: R$ ");
+                    double val = sc.nextDouble();
+                    sc.nextLine();
 
                     fila.adicionar(num, cliente, prod, val);
+                    System.out.println("-> Pedido enfileirado!");
                     break;
                 case 2:
-                    System.out.print("Digite o numero do pedido para buscar: ");
-                    int numBusca = scanner.nextInt();
+                    System.out.print("Numero do pedido para buscar: ");
+                    int numBusca = sc.nextInt();
+                    sc.nextLine();
                     fila.buscar(numBusca);
                     break;
                 case 3:
